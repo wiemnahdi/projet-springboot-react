@@ -41,7 +41,7 @@ public class TeamLeaderController {
     @GetMapping
     @PreAuthorize("hasAuthority('teamleader:read')")
     public List<User> get() {
-        List<User> users = userService.findByRole(TEAM_LEADER);
+        List<User> users = userService.findAllByRole(TEAM_LEADER);
         return users;
     }
     @PostMapping

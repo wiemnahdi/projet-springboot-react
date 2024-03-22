@@ -2,6 +2,7 @@ package com.pfe.api.service;
 
 import com.pfe.api.dao.TeamDao;
 import com.pfe.api.entities.Team;
+import com.pfe.api.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,33 +12,35 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
-    TeamDao equipeDao;
+    TeamDao teamDao;
 
 
     @Override
     public Team AjouterEquipe(Team team) {
-        equipeDao.save(team);
+        teamDao.save(team);
         return team;
     }
 
     @Override
     public void DeleteEquipe(Team team) {
-        equipeDao.delete(team);
+        teamDao.delete(team);
     }
 
     @Override
     public void DeleteById(Integer id) {
-        equipeDao.deleteById(id);
+        teamDao.deleteById(id);
     }
 
     @Override
-    public String GetAllEquipes() {
-        List<Team> teams = equipeDao.findAll();
-        return "Liste des équipes";
+    public List<Team> GetAllEquipes() {
+        List<Team> teams = teamDao.findAll();
+        return teams;
     }
 
     @Override
-    public Team updateEquipe(Team team) {
-        return team;
+    public Team updateEquipe(Integer id, Team team) {
+        Team existingTeam = teamDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("team introuvable"));
+        existingTeam.setNomEquipe(team.getNomEquipe());
+        return teamDao.save(existingTeam);
     }
 }

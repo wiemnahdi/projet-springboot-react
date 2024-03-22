@@ -11,8 +11,7 @@ public interface UserService {
 
     void DeleteById(Integer id);
     List<User> GetAllUsers();
-    List<User> findByRole(Role role);
-
-
+    List<User> findAllByRole(Role role);
     User modifierUser(User user, Integer id);
+    User findUserByRole(Role role);
 }

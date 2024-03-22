@@ -2,6 +2,7 @@ package com.pfe.api.controller;
 
 import com.pfe.api.auth.AuthenticationService;
 import com.pfe.api.dao.UserDao;
+import com.pfe.api.entities.Role;
 import com.pfe.api.entities.User;
 import com.pfe.api.exception.ResourceNotFoundException;
 import com.pfe.api.service.UserService;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,49 +43,72 @@ public class ChefDepartController {
     )
 
 
-//    @GetMapping
-//    @PreAuthorize("hasAuthority('chefdepartement:read')")
-//    public String get() {
-//        return "GET:: Retrieve all departments chef";
-//    }
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('chefdepartement:create')")
-//    public String post() {
-//        return "POST::  Create a new department chef";
-//    }
     @GetMapping
-    @PreAuthorize("hasAuthority('chefdepartement:read')")
-//    public List<User> get(){
-//        List<User> users = userService.findByRole(DEPARTEMENT_CHEF);
-//        return users;
-//    }
-    public List<User> get(){
-        return  userService.findByRole(DEPARTEMENT_CHEF);
+    @PreAuthorize("hasAuthority('departementchef:read')")
+    public List<User> get() {
+        return userService.findAllByRole(DEPARTEMENT_CHEF);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('chefdepartement:create')")
-    public User post (@RequestBody User user){
+    @PreAuthorize("hasAuthority('departementchef:create')")
+    public User post(@RequestBody User user) {
         return userService.AjouterUser(user);
     }
+
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('chefdepartementchef:update')")
-    public User put (@PathVariable("id") Integer id, @RequestBody User user){
+    @PreAuthorize("hasAuthority('departementchef:update')")
+    public User put(@PathVariable("id") Integer id, @RequestBody User user) {
         return userService.modifierUser(user, id);
     }
+
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('chefdepartementchef:delete')")
+    @PreAuthorize("hasAuthority('departementchef:delete')")
 //    public String delete(@PathVariable("id") Integer id) {
 //        userService.DeleteById(id);
 //        return "ce chef de departement est supprimé";
 //    }
-    public void delete(@PathVariable("id") Integer id){
-        userService.DeleteById(id);
-//        return "User deleted successfully";
+    public Role delete(@PathVariable("id") Integer id, @AuthenticationPrincipal User user) {
+
+//        System.out.println("Role of user: " + user.getRole());
+        return user.getRole();
     }
+//        User user1 = userService.findUserByRole(DEPARTEMENT_CHEF);
+//        if (user.getRole().equals(DEPARTEMENT_CHEF)) {
+//            userService.DeleteById(id);
+//            return "User deleted successfully";
+//        }
+//        else {
+//            return "User not found";
+//        }
+////        User existintUser = userService.findByRole1(DEPARTEMENT_CHEF);
+////        if (existintUser.equals(DEPARTEMENT_CHEF)){
+////            return "User deleted successfully";
+////        }else{
+////            return "User not found";
+////        }
+//
+//
+//        }
+//}
+//        final String DEPARTEMENT_CHEF = "DEPARTEMENT_CHEF";
+//
+//        // Ajoutez une instruction de débogage pour imprimer le rôle de l'utilisateur
+//        System.out.println("Role of user: " + user.getRole());
+//
+//        if (user != null && user.getRole() != null) {
+//            if (user.getRole().equals(DEPARTEMENT_CHEF)) {
+//                if (userService != null) {
+//                    userService.DeleteById(id);
+//                    return "User deleted successfully";
+//                } else {
+//                    return "UserService is not initialized";
+//                }
+//            } else {
+//                return "User does not have the required role";
+//            }
+//        } else {
+//            return "User not found or role not defined";
+//        }
 
 
-
-
-
-}
+   }

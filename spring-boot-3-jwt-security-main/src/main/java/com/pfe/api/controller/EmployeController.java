@@ -40,7 +40,7 @@ public class EmployeController {
     @GetMapping
     @PreAuthorize("hasAuthority('employe:read')")
     public List<User> get() {
-        List<User> users = userService.findByRole(EMPLOYE);
+        List<User> users = userService.findAllByRole(EMPLOYE);
         return users;
     }
     @PostMapping

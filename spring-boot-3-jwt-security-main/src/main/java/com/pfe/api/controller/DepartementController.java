@@ -6,6 +6,7 @@ import com.pfe.api.service.DepartementService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,25 +54,14 @@ public class DepartementController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('departement:update')")
-    public Departement updateDepartement(@PathVariable("id") Integer id ,@RequestBody Departement departement){
+    public Departement updateDepartement(@PathVariable("id") Integer id , @RequestBody Departement departement){
 
+//         Departement updateDepartement = departementService.updateDepartement(departement, id);
+//        return ResponseEntity.ok(updateDepartement);
         return departementService.updateDepartement(departement, id);
-    }
-//    public Departement replaceDepartement (@RequestBody Departement newDepartement, @PathVariable("id") Integer id){
-//        return departementDao.findById(id)
-//                .map(departement -> {
-//                    departement.setNomDepart(newDepartement.getNomDepart());
-//                    return departementDao.save(departement);
-//                })
-//                .orElseGet(() -> {
-//                    return departementDao.save(newDepartement);
-//                });
-//    }
 
-//    public ResponseEntity<DepartementDto> updateDepartement(@PathVariable("id") Integer id, @RequestBody DepartementDto updateDeparetement){
-//        DepartementDto departementDto = departementService.updateDepartement(id, updateDeparetement);
-//        return ResponseEntity.ok(departementDto);
-//    }
+    }
+
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('departement:delete')")

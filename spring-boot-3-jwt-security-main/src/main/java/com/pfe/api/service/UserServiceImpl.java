@@ -72,7 +72,11 @@ public class UserServiceImpl implements UserService {
      return userDao.save(existingUser);
  }
 
-
+    @Override
+    public User findUserByRole(Role role) throws ResourceNotFoundException {
+        User user = userDao.findUserByRole(role);
+        return user;
+    }
 
 
     @Override
@@ -87,8 +91,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByRole(Role role) throws ResourceNotFoundException {
-        List <User> users = userDao.findByRole(role);
+    public List<User> findAllByRole(Role role) throws ResourceNotFoundException {
+        List <User> users = userDao.findAllByRole(role);
         if (users.isEmpty()){
             throw new ResourceNotFoundException("Aucun utilisateur trouvé par ce role : " + role);
          }

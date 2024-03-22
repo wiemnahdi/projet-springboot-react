@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/team")
 @PreAuthorize("hasRole('DEPARTEMENT_CHEF')")
@@ -33,8 +35,9 @@ public class TeamController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('team:read')")
-    public String GetAllEquipes(){
-        return teamService.GetAllEquipes();
+    public List<Team> GetAllEquipes(){
+        List<Team> teams = teamService.GetAllEquipes();
+        return teams;
     }
 
     @PostMapping
@@ -43,10 +46,10 @@ public class TeamController {
         return teamService.AjouterEquipe(team);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('team:read')")
-    public Team updateEquipe(@RequestBody Team team){
-        return teamService.updateEquipe(team);
+    public Team updateEquipe(@PathVariable("id") Integer id, @RequestBody Team team){
+        return teamService.updateEquipe(id, team);
     }
 
     @DeleteMapping("/{id}")
